@@ -30,29 +30,9 @@ jobs:
 
     - name: Build web app
       run: |
-        # Create a simple vite config for GitHub build
-        cat > vite.config.github.js << 'EOF'
-        import { defineConfig } from "vite";
-        import react from "@vitejs/plugin-react";
-        import path from "path";
-        
-        export default defineConfig({
-          plugins: [react()],
-          root: "./client",
-          build: {
-            outDir: "../dist",
-            emptyOutDir: true,
-          },
-          resolve: {
-            alias: {
-              "@": path.resolve("./client/src"),
-              "@shared": path.resolve("./shared"),
-            },
-          },
-        });
-        EOF
-        # Build with the GitHub-specific config
-        npx vite build --config vite.config.github.js
+        # Build frontend from client directory
+        cd client
+        npx vite build --outDir ../dist
 
     - name: Sync Capacitor
       run: npx cap sync android
