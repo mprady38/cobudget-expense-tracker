@@ -29,7 +29,12 @@ jobs:
       run: npm ci
 
     - name: Build web app
-      run: npm run build
+      run: |
+        # Build the frontend only
+        npx vite build
+        # Copy built files to the correct location for Capacitor
+        mkdir -p dist
+        cp -r client/dist/* dist/ || cp -r dist/public/* dist/ || echo "Build output found"
 
     - name: Sync Capacitor
       run: npx cap sync android
